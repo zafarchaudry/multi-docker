@@ -17,7 +17,7 @@ after_success:
 
   #Log in to docker CLI
   #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-   - echo vTW2Kk91q | docker login -u zafarchaudry --password-stdin
+  - echo vTW2Kk91q | docker login -u zafarchaudry --password-stdin
 #Take those images and push to docker hub.
   - docker push zafar/multi-client
   - docker push zafar/multi-nginx
