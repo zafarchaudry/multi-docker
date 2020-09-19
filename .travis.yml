@@ -1,0 +1,26 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install: # 
+  - docker build -t zafar/react-test -f ./client/Dockerfile.dev ./client #look into client directory to get build context.
+
+script: #if any of scripts mentioned in this section fail with status code other than 0, travis will believe that our build failed.
+  - docker run -e CI=true zafar/react-test npm test -- --coverage #the -- --converage is basically so that script eventually exits.
+
+after_success:
+  - docker build -t zafar/multi-client ./client
+  - docker build -t zafar/multi-nginx  ./nginx
+  - docker build -t zafar/multi-server ./server
+  - docker build -t zafar/multi-worker ./worker
+
+  #Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+#Take those images and push to docker hub.
+  - docker push zafar/multi-client
+  - docker push zafar/multi-nginx
+  - docker push zafar/multi-server
+  - docker push zafar/multi-worker
+
