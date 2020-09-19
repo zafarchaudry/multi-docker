@@ -23,4 +23,3 @@ after_success:
   - docker push zafar/multi-nginx
   - docker push zafar/multi-server
   - docker push zafar/multi-worker
-# File end
